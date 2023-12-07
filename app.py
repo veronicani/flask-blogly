@@ -41,7 +41,7 @@ def show_users():
 
 @app.get("/users/new")
 def show_new_user_form():
-    """ Shows the new user form. 
+    """ Shows the new user form.
 
         Fieldsets:
             First Name: "Enter a first name"
