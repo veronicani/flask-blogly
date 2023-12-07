@@ -37,3 +37,19 @@ def show_users():
 
     users = User.query.all()
     return render_template("users.html", users=users)
+
+
+@app.get("/users/new")
+def show_new_user_form():
+    """ Shows the new user form. 
+
+        Fieldsets:
+            First Name: "Enter a first name"
+            Last Name: "Enter a last name"
+            Image URL: "Provide an image of this user"
+
+        Returns:
+            new_user_form.html template
+    """
+
+    return render_template("new_user_form.html")
