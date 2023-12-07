@@ -53,3 +53,17 @@ def show_new_user_form():
     """
 
     return render_template("new_user_form.html")
+
+
+@app.get("/users/<int:user_id>")
+def show_user_detail_page(user_id):
+    """ Shows the page of information of a given user.
+        Contains options to edit or delete user profile.
+
+        Returns:
+            user_details.html template
+            user object with the corresponding id
+    """
+
+    user = User.query.get_or_404(user_id)
+    return render_template("user_details.html", user=user)
