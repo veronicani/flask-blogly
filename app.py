@@ -101,6 +101,13 @@ def show_user_detail_page(user_id):
 # will require new template with form
 
 
+@app.get("/users/<int:user_id>/edit")
+def show_user_edit_form(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    return render_template("edit_user_form.html", user=user)
+
 # TODO: Handle routing and logic for POST /users/[user-id]/edit
 
 
