@@ -57,3 +57,18 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True)
             self.assertIn("test1_first", html)
             self.assertIn("test1_last", html)
+
+    def test_handle_new_user(self):
+        with app.test_client() as c:
+            resp = c.post(
+                "/users/new",
+                data={
+                    "first_name": "Bob",
+                    "last_name": "Test",
+                    "image_url": ""
+                },
+                follow_redirects=True)
+
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("Bob", html)
