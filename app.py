@@ -77,6 +77,7 @@ def handle_new_user():
                 last_name=last_name, image_url=image_url)
     db.session.add(user)
     db.session.commit()
+    # TODO: Flash success message? Remember to import flash
 
     return redirect("/users/")
 
