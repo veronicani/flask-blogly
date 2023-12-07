@@ -2,7 +2,7 @@
 
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, db, connect_db
 
@@ -13,8 +13,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "secret"
 
-debug = DebugToolbarExtension(app)
-# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 connect_db(app)
 
+debug = DebugToolbarExtension(app)
+# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+
+@app.get("/")
+def show_homepage():
+    return redirect("/users/")
+
+
+@app.get("/users/")
+def show_users():
+    """Show all users and have links to user profiles and a link to the
+        add-user form.
+
+        Returns:
+            users.html template
+            users (list): all user objects from database
+    """
+
+    users = User.query.all()
+    return render_template("users.html", users=users)
