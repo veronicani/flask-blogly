@@ -4,6 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+def connect_db(app):
+    """Connect to the database."""
+
+    app.app_context().push()
+    db.app = app
+    db.init_app(app)
+
+
 class User(db.Model):
     """
     User Class for Blogly.
@@ -21,11 +29,9 @@ class User(db.Model):
         autoincrement=True)
     first_name = db.Column(
         db.String(25),
-        db.CheckConstraint('len(name) >= 2'),
         nullable=False)
     last_name = db.Column(
         db.String(25),
-        db.CheckConstraint('len(name) >= 2'),
         nullable=False)
     image_url = db.Column(
         db.Text,
