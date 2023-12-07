@@ -78,11 +78,10 @@ def handle_new_user():
     db.session.add(user)
     db.session.commit()
     # TODO: Flash success message? Remember to import flash
-
     return redirect("/users/")
 
 
-@app.get("/users/<int:user_id>")
+@app.get("/users/<int:user_id>/")
 def show_user_detail_page(user_id):
     """ Shows the page of information of a given user.
         Contains options to edit or delete user profile.
@@ -101,15 +100,34 @@ def show_user_detail_page(user_id):
 # will require new template with form
 
 
-@app.get("/users/<int:user_id>/edit")
+@app.get("/users/<int:user_id>/edit/")
 def show_user_edit_form(user_id):
-
+    """"""
     user = User.query.get_or_404(user_id)
 
     return render_template("edit_user_form.html", user=user)
 
 # TODO: Handle routing and logic for POST /users/[user-id]/edit
 
+
+@app.post("/users/<int:user_id>/edit/")
+def handle_user_edit_form(user_id):
+    """"""
+
+    user = User.query.get_or_404(user_id)
+
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    image_url = request.form['image_url']
+
+    user.first_name = first_name
+    user.last_name = last_name
+    user.image_url = image_url if image_url != "" else user.image_url
+
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect(f"/users/{user_id}/")
 
 # TODO: Handle routing and logic for for POST /users/[user-id]/delete
 
