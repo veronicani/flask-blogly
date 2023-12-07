@@ -65,7 +65,7 @@ def handle_new_user():
         - last_name  (str): Submitted last name from form (required)
         - image_url  (str): Submited profile image url (optional)
 
-    Returns a redirect back to the /users/ endpoint
+    Returns a redirect back to the /users endpoint
     """
 
     first_name = request.form['first_name']
