@@ -36,4 +36,4 @@ class User(db.Model):
     image_url = db.Column(
         db.Text,
         nullable=False,
-        default="https://www.istockphoto.com/signature/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration-gm1300845620-393045799")
+        default="")
