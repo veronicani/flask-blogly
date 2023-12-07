@@ -95,3 +95,18 @@ def show_user_detail_page(user_id):
     print("user instance: ", user)
 
     return render_template("user_details.html", user=user)
+
+# TODO: Handle routing for GET /users/[user-id]/edit
+# will require new template with form
+
+
+# TODO: Handle routing and logic for POST /users/[user-id]/edit
+
+
+# TODO: Handle routing and logic for for POST /users/[user-id]/delete
+
+
+# TODO: Add python tests to at least 4 of your routes
+
+
+# TODO: Request Code Review
