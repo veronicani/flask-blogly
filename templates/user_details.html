@@ -1,26 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}
+{{ user.first_name }} {{ user.last_name }} | Blogly
+{% endblock %}
 
 {% block content %}
-<div class="container mt-2">
+<div class="container mt-4">
   <div class="row">
-    <img src="{{ user.image_url }}" alt="User profile image" class="img-thumbnail " style="width: 100px; height: 100px;"
-      class="col-3">
+    <img src="{{ user.image_url }}" alt="User profile image" class="img-thumbnail col-3"
+      style="width: 100px; height: 100px;">
     <div class="col-9">
       <div class="row">
         <h1 class="ms-3"> {{ user.first_name }} {{ user.last_name }}</h1>
       </div>
       <div class="row">
         <a href="/users/{{ user.id }}/edit" class="btn btn-primary col-2 ms-4 mt-2 text-center h-50">Edit</a>
-        <!-- TODO: How to make button have a post request to a different URL -->
         <form action="/users/{{ user.id }}/delete" method="POST" class="col-2 ms-3">
           <input type="hidden" class="d-none" name="user_id" value="{{ user.id }}"></input>
-          <button type="submit" class="btn btn-danger my-2">Delete</button>
+          <button type="submit" class="btn btn-danger my-2" data-bs-toggle="tooltip" data-bs-placement="bottom"
+            data-bs-original-title="Are you sure? This is permanent!">Delete</button>
         </form>
       </div>
     </div>
   </div>
+  {% block edit_form %}
+  {% endblock %}
 </div>
+{% endblock %}
 
+{% block bootstrap_initializer%}
+<script>
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 {% endblock %}
