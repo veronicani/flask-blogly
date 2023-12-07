@@ -1,10 +1,11 @@
 """Blogly application."""
-
-import os
-
 from flask import Flask, request, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, db, connect_db
+import os
+
+print("APP.PY")
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
@@ -17,15 +18,15 @@ app.config['SECRET_KEY'] = "secret"
 connect_db(app)
 
 debug = DebugToolbarExtension(app)
-# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 
 @app.get("/")
 def show_homepage():
-    return redirect("/users/")
+    return redirect("/users")
 
 
-@app.get("/users/")
+@app.get("/users")
 def show_users():
     """Show all users and have links to user profiles and a link to the
         add-user form.
@@ -39,7 +40,7 @@ def show_users():
     return render_template("users.html", users=users)
 
 
-@app.get("/users/new/")
+@app.get("/users/new")
 def show_new_user_form():
     """ Shows the new user form.
 
@@ -55,7 +56,7 @@ def show_new_user_form():
     return render_template("new_user_form.html")
 
 
-@app.post("/users/new/")
+@app.post("/users/new")
 def handle_new_user():
     """ Processes the new user add form and adds a User to the database
 
@@ -78,10 +79,10 @@ def handle_new_user():
     db.session.add(user)
     db.session.commit()
     # TODO: Flash success message? Remember to import flash
-    return redirect("/users/")
+    return redirect("/users")
 
 
-@app.get("/users/<int:user_id>/")
+@app.get("/users/<int:user_id>")
 def show_user_detail_page(user_id):
     """ Shows the page of information of a given user.
         Contains options to edit or delete user profile.
@@ -96,23 +97,21 @@ def show_user_detail_page(user_id):
 
     return render_template("user_details.html", user=user)
 
-# TODO: Handle routing for GET /users/[user-id]/edit
-# will require new template with form
 
-
-@app.get("/users/<int:user_id>/edit/")
+@app.get("/users/<int:user_id>/edit")
 def show_user_edit_form(user_id):
-    """"""
+    """Show the edit page for a user.
+        Retrieves user from database and return's the user's edit form.
+    """
+
     user = User.query.get_or_404(user_id)
 
     return render_template("edit_user_form.html", user=user)
 
-# TODO: Handle routing and logic for POST /users/[user-id]/edit
 
-
-@app.post("/users/<int:user_id>/edit/")
+@app.post("/users/<int:user_id>/edit")
 def handle_user_edit_form(user_id):
-    """"""
+    """ Process the edit form, returning the user to the /users page."""
 
     user = User.query.get_or_404(user_id)
 
@@ -127,10 +126,20 @@ def handle_user_edit_form(user_id):
     db.session.add(user)
     db.session.commit()
 
-    return redirect(f"/users/{user_id}/")
+    return redirect("/users")
 
-# TODO: Handle routing and logic for for POST /users/[user-id]/delete
 
+@app.post("/users/<int:user_id>/delete")
+def handle_delete_user(user_id):
+    """Delete the current user."""
+
+    user_to_delete = User.query.get(user_id)
+    print("user_to_delete: ", user_to_delete)
+    db.session.delete(user_to_delete)
+
+    db.session.commit()
+
+    return redirect("/users")
 
 # TODO: Add python tests to at least 4 of your routes
 
