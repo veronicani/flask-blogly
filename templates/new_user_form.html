@@ -4,16 +4,14 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+<h1>Create a user</h1>
 <form action="" class="form-control" method="POST">
   <label for="first_name">First Name</label>
-  <input type="text" id="first_name" name="first_name" 
-    placeholder="Enter a first name"></input>
+  <input type="text" id="first_name" name="first_name" placeholder="Enter a first name"></input>
   <label for="last_name">Last Name</label>
-  <input type="text" id="last_name" name="last_name"
-    placeholder="Enter a last name"></input>
+  <input type="text" id="last_name" name="last_name" placeholder="Enter a last name"></input>
   <label for="image_url">Image URL</label>
-  <input type="url" id="image_url" name="image_url" 
-    placeholder="Provide an image of this user"></input>
+  <input type="url" id="image_url" name="image_url" placeholder="Provide an image of this user"></input>
   <button type="submit">Add</button>
 </form>
 {% endblock %}
