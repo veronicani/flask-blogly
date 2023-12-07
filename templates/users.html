@@ -4,7 +4,7 @@
 {% block title %} Users | Blogly {% endblock %}
 
 {% block content %}
-<h1>Users</h1>
+<h1 class="mt-3">Users</h1>
 
 <ul class="list-group">
   {% for user in users %}
@@ -13,5 +13,5 @@
   {% endfor %}
 </ul>
 
-<a href="/users/new" class="btn btn-primary mt-3">Create New User</a>
+<a href="/users/new/" class="btn btn-primary mt-3">Create New User</a>
 {% endblock %}
