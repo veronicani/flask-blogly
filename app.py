@@ -66,4 +66,6 @@ def show_user_detail_page(user_id):
     """
 
     user = User.query.get_or_404(user_id)
+    # TODO: figure out what properties are on the user, and pass into the form
+    print("user instance: ", user)
     return render_template("user_details.html", user=user)
