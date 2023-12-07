@@ -39,7 +39,7 @@ def show_users():
     return render_template("users.html", users=users)
 
 
-@app.get("/users/new")
+@app.get("/users/new/")
 def show_new_user_form():
     """ Shows the new user form.
 
@@ -55,6 +55,32 @@ def show_new_user_form():
     return render_template("new_user_form.html")
 
 
+@app.post("/users/new/")
+def handle_new_user():
+    """ Processes the new user add form and adds a User to the database
+
+    Data needed to create a User instance:
+        - first_name (str): Submitted first name from form (required)
+        - last_name  (str): Submitted last name from form (required)
+        - image_url  (str): Submited profile image url (optional)
+
+    Returns a redirect back to the /users/ endpoint
+    """
+
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    image_url = request.form['image_url']
+
+    image_url = str(image_url) if image_url else ""
+
+    user = User(first_name=first_name,
+                last_name=last_name, image_url=image_url)
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect("/users/")
+
+
 @app.get("/users/<int:user_id>")
 def show_user_detail_page(user_id):
     """ Shows the page of information of a given user.
@@ -66,6 +92,6 @@ def show_user_detail_page(user_id):
     """
 
     user = User.query.get_or_404(user_id)
-    # TODO: figure out what properties are on the user, and pass into the form
     print("user instance: ", user)
+
     return render_template("user_details.html", user=user)
