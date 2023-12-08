@@ -50,7 +50,7 @@ class UserViewTestCase(TestCase):
         """Clean up any fouled transaction."""
         db.session.rollback()
 
-    def test_list_users(self):
+    def test_show_users(self):
         with app.test_client() as c:
             resp = c.get("/users")
             self.assertEqual(resp.status_code, 200)
@@ -72,3 +72,50 @@ class UserViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("Bob", html)
+
+    def test_show_user_detail_page(self):
+        with app.test_client() as c:
+            resp = c.get(f"/users/{self.user_id}")
+
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("test1_first", html)
+            self.assertIn(DEFAULT_IMAGE_URL, html)
+            self.assertIn("Edit", html)
+
+    def test_show_user_edit_form(self):
+        with app.test_client() as c:
+            resp = c.get(f"/users/{self.user_id}/edit")
+
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("Delete", html)
+            self.assertIn("Save", html)
+
+    def test_handle_user_edit_form(self):
+        with app.test_client() as c:
+            resp = c.post(
+                "/users/new",
+                data={
+                    "first_name": "Bob-2",
+                    "last_name": "Test",
+                    "image_url": ""
+                },
+                follow_redirects=True)
+
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("Bob-2", html)
+
+    def test_handle_delete_user(self):
+        with app.test_client() as c:
+            resp = c.post(
+                f"/users/{self.user_id}/delete",
+                data={
+                    "user_id": f"{self.user_id}"
+                },
+                follow_redirects=True)
+
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertNotIn("test1_first", html)
