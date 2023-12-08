@@ -72,7 +72,7 @@ def handle_new_user():
     last_name = request.form['last_name']
     image_url = request.form['image_url']
 
-    image_url = str(image_url) if image_url else None
+    image_url = image_url if image_url != "" else None
 
     user = User(first_name=first_name,
                 last_name=last_name, image_url=image_url)
