@@ -1,11 +1,10 @@
 """Blogly application."""
+import os
 from flask import Flask, request, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, db, connect_db
-import os
 
 print("APP.PY")
-
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
@@ -24,6 +23,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 @app.get("/")
 def show_homepage():
+    # TODO: docstring!!
     return redirect("/users")
 
 
@@ -38,6 +38,7 @@ def show_users():
     """
 
     users = User.query.all()
+    # TODO: how to order the users so they show up in a certain way?
     return render_template("users.html", users=users)
 
 
@@ -71,7 +72,7 @@ def handle_new_user():
 
     first_name = request.form['first_name']
     last_name = request.form['last_name']
-    image_url = request.form['image_url']
+    image_url = request.form['image_url'] # TODO: or None
 
     image_url = image_url if image_url != "" else None
 
@@ -115,7 +116,7 @@ def handle_user_edit_form(user_id):
     """ Process the edit form, returning the user to the /users page."""
 
     user = User.query.get_or_404(user_id)
-
+    # TODO: condense to user.first_name = request.form... -> 126
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     image_url = request.form['image_url']
@@ -133,7 +134,7 @@ def handle_user_edit_form(user_id):
 @app.post("/users/<int:user_id>/delete")
 def handle_delete_user(user_id):
     """Delete the current user."""
-
+    # TODO: get or 404 - what if someone typed user/500/delete?
     user_to_delete = User.query.get(user_id)
     print("user_to_delete: ", user_to_delete)
     db.session.delete(user_to_delete)

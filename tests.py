@@ -88,7 +88,8 @@ class UserViewTestCase(TestCase):
             self.assertIn("test1_first", html)
             self.assertIn(DEFAULT_IMAGE_URL, html)
             self.assertIn("Edit", html)
-
+    # TODO: test to make sure that the fields are prepopulated
+    # html <inputvalue = 
     def test_show_user_edit_form(self):
         with app.test_client() as c:
             resp = c.get(f"/users/{self.user_id}/edit")
@@ -112,6 +113,7 @@ class UserViewTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("Bob-2", html)
+            #TODO: test that the last name is also "Test"
 
     def test_handle_delete_user(self):
         with app.test_client() as c:
