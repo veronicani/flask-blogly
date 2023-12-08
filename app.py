@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "secret"
 
+print("Printing the db url: ", app.config["SQLALCHEMY_DATABASE_URI"])
 
 connect_db(app)
 
@@ -140,4 +141,3 @@ def handle_delete_user(user_id):
     db.session.commit()
 
     return redirect("/users")
-

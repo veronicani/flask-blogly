@@ -1,9 +1,12 @@
-from models import DEFAULT_IMAGE_URL, User
-from app import app, db
-from unittest import TestCase
 import os
 
 os.environ["DATABASE_URL"] = "postgresql:///blogly_test"
+
+
+from app import app, db
+from unittest import TestCase
+from models import DEFAULT_IMAGE_URL, User
+
 
 
 # Make Flask errors be real errors, rather than HTML pages with error info
@@ -11,6 +14,9 @@ app.config['TESTING'] = True
 
 # This is a bit of hack, but don't use Flask DebugToolbar
 app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
+
+# print("Printing Test db url: ", app.config["DATABASE_URL"])
+print("Printing Test db url: ", app.config["SQLALCHEMY_DATABASE_URI"])
 
 # Create our tables (we do this here, so we only create the tables
 # once for all tests --- in each test, we'll delete the data
